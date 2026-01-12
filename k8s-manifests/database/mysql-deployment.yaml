@@ -1,0 +1,59 @@
+# MariaDB Database Deployment
+# 
+# NOTE: Original tutorial uses registry.access.redhat.com/rhscl/mariadb-103-rhel7
+# but this may require authentication. Using Docker Hub image instead.
+# 
+# Environment variables differ between images:
+# - Red Hat image: MYSQL_ROOT_PASSWORD
+# - Docker Hub image: MARIADB_ROOT_PASSWORD
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+    tier: database
+    sandbox: learn-kubernetes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+      tier: database
+  strategy:
+    # Recreate strategy for databases to avoid data corruption
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+        tier: database
+    spec:
+      containers:
+        - name: mariadb
+          # Using Docker Hub image (more reliable than Red Hat registry)
+          image: docker.io/mariadb:10.5
+          ports:
+            - containerPort: 3306
+              protocol: TCP
+          env:
+            # Docker Hub MariaDB uses MARIADB_* env vars
+            - name: MARIADB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysqlpassword
+                  key: password
+          volumeMounts:
+            - name: mysqlvolume
+              mountPath: /var/lib/mysql
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+      volumes:
+        - name: mysqlvolume
+          persistentVolumeClaim:
+            claimName: mysqlvolume

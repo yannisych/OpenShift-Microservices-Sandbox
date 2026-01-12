@@ -1,0 +1,17 @@
+# PersistentVolumeClaim for MariaDB
+# Ensures data persists across pod restarts
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysqlvolume
+  labels:
+    app: mysql
+    tier: database
+    sandbox: learn-kubernetes
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  volumeMode: Filesystem

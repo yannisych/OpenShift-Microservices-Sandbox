@@ -1,0 +1,36 @@
+# Frontend Deployment - React Web Application
+# Image: quay.io/rhdevelopers/quotesweb:v1
+# Displays quotes from backend API
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quotesweb
+  labels:
+    app: quotesweb
+    tier: frontend
+    sandbox: learn-kubernetes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quotesweb
+  template:
+    metadata:
+      labels:
+        app: quotesweb
+        tier: frontend
+    spec:
+      containers:
+        - name: quotesweb
+          image: quay.io/rhdevelopers/quotesweb:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"

@@ -1,0 +1,58 @@
+# Kubernetes Secrets - NEVER commit!
+**/secret.yaml
+**/secrets.yaml
+*secret*.yaml
+!*-secret.yaml.template
+
+# Environment files
+.env
+.env.*
+*.env
+
+# Credentials
+kubeconfig
+.kube/
+*.pem
+*.key
+*.crt
+id_rsa*
+
+# OpenShift CLI config
+.oc/
+
+# Tokens
+*token*
+*.token
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+*:Zone.Identifier
+
+# Duplicate directories
+k8s-microservices-sandbox/
+{docs,k8s-manifests/
+
+# Project memory (local only)
+CLAUDE.md
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Build artifacts
+dist/
+build/
+*.tar.gz
+*.zip

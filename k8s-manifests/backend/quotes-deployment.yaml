@@ -1,0 +1,47 @@
+# Backend Deployment - Python Flask REST API
+# Image: quay.io/donschenck/quotes
+# IMPORTANT: Container listens on port 10000, not 8080!
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quotes
+  labels:
+    app: quotes
+    tier: backend
+    sandbox: learn-kubernetes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quotes
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: quotes
+        tier: backend
+    spec:
+      containers:
+        - name: quotes
+          # v1 = hardcoded quotes, v2 = reads from database
+          image: quay.io/donschenck/quotes:v1
+          imagePullPolicy: Always
+          ports:
+            # CRITICAL: The actual port is 10000, NOT 8080
+            - containerPort: 10000
+              protocol: TCP
+          env:
+            # Required for v2 to connect to database
+            - name: DB_SERVICE_NAME
+              value: "mysql"
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"

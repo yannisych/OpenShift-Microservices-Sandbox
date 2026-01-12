@@ -1,0 +1,22 @@
+# Backend Service - Internal ClusterIP
+# Exposes the quotes API within the cluster
+# 
+# IMPORTANT FIX: targetPort must be 10000 (actual container port)
+# The container does NOT listen on 8080 despite documentation
+apiVersion: v1
+kind: Service
+metadata:
+  name: quotes
+  labels:
+    app: quotes
+    tier: backend
+    sandbox: learn-kubernetes
+spec:
+  type: ClusterIP
+  selector:
+    app: quotes
+  ports:
+    - port: 8080          # Port other services use to connect
+      targetPort: 10000   # Actual container port (CRITICAL!)
+      protocol: TCP
+      name: http

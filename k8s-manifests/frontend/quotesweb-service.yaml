@@ -1,0 +1,19 @@
+# Frontend Service - Internal ClusterIP
+# Exposes the React app within the cluster
+apiVersion: v1
+kind: Service
+metadata:
+  name: quotesweb
+  labels:
+    app: quotesweb
+    tier: frontend
+    sandbox: learn-kubernetes
+spec:
+  type: ClusterIP
+  selector:
+    app: quotesweb
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: http

@@ -1,0 +1,22 @@
+# Backend Route - External HTTPS Access
+# Required for frontend (browser) to call backend API
+# TLS termination at edge (OpenShift router handles HTTPS)
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: quotes
+  labels:
+    app: quotes
+    tier: backend
+    sandbox: learn-kubernetes
+spec:
+  to:
+    kind: Service
+    name: quotes
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None

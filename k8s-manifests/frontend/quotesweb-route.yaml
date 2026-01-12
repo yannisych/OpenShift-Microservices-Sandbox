@@ -1,0 +1,24 @@
+# Frontend Route - External HTTPS Access
+# User-facing URL for the web application
+# 
+# IMPORTANT: Must include TLS configuration for HTTPS to work
+# Without TLS config, you get "Application not available" error
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: quotesweb
+  labels:
+    app: quotesweb
+    tier: frontend
+    sandbox: learn-kubernetes
+spec:
+  to:
+    kind: Service
+    name: quotesweb
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
