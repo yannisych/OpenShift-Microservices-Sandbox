@@ -150,7 +150,7 @@ This project deploys a **Quote of the Day** application consisting of:
 ```bash
 # 1. Clone this repository
 git clone https://github.com/yannisych/OpenShift-Microservices-Sandbox
-cd k8s-microservices-sandbox
+cd OpenShift-Microservices-Sandbox
 
 # 2. Install CLI tools
 ./scripts/01-install-prerequisites.sh

@@ -38,7 +38,6 @@ Thumbs.db
 
 # Duplicate directories
 k8s-microservices-sandbox/
-{docs,k8s-manifests/
 
 # Project memory (local only)
 CLAUDE.md
